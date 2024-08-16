@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  user-service:
+    build:
+      context: ./microservices/user
+    container_name: user_service
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=user.settings
+
+  movie-service:
+    build:
+      context: ./microservices/movie
+    container_name: movie_service
+    ports:
+      - "8001:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=movie.settings
+
+  review-service:
+    build:
+      context: ./microservices/review
+    container_name: review_service
+    ports:
+      - "8002:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=review.settings
+
+  subscription-service:
+    build:
+      context: ./microservices/subscription
+    container_name: subscription_service
+    ports:
+      - "8003:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=subscription.settings
