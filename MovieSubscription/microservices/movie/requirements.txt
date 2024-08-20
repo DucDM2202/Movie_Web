@@ -1,4 +1,0 @@
-Django
-numpy
-Pillow
-paypalrestsdk
