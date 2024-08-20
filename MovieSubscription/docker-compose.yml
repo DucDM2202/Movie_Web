@@ -15,7 +15,7 @@ services:
       context: ./microservices/movie
     container_name: movie_service
     ports:
-      - "8001:8000"
+      - "8001:8001"
     environment:
       - DJANGO_SETTINGS_MODULE=movie.settings
 
@@ -24,7 +24,7 @@ services:
       context: ./microservices/review
     container_name: review_service
     ports:
-      - "8002:8000"
+      - "8002:8002"
     environment:
       - DJANGO_SETTINGS_MODULE=review.settings
 
@@ -33,6 +33,6 @@ services:
       context: ./microservices/subscription
     container_name: subscription_service
     ports:
-      - "8003:8000"
+      - "8003:8003"
     environment:
       - DJANGO_SETTINGS_MODULE=subscription.settings
