@@ -122,15 +122,16 @@ def update_embedding_layers(
             )
             net.u.weight.data[-1] = torch.rand(net.u.embedding_dim) * 0.1 - 0.05
 
-    for movie_id, _ in rated_movies:
-        if movie_id not in movie_to_index:
-            new_movie_index = len(movie_to_index)
-            movie_to_index[movie_id] = new_movie_index
-            with torch.no_grad():
-                net.m = torch.nn.Embedding(len(movie_to_index), net.m.embedding_dim).to(
-                    net.m.weight.device
-                )
-                net.m.weight.data[-1] = torch.rand(net.m.embedding_dim) * 0.1 - 0.05
+    if rated_movies is not None:
+        for movie_id, _ in rated_movies:
+            if movie_id not in movie_to_index:
+                new_movie_index = len(movie_to_index)
+                movie_to_index[movie_id] = new_movie_index
+                with torch.no_grad():
+                    net.m = torch.nn.Embedding(len(movie_to_index), net.m.embedding_dim).to(
+                        net.m.weight.device
+                    )
+                    net.m.weight.data[-1] = torch.rand(net.m.embedding_dim) * 0.1 - 0.05
 
     return user_to_index, movie_to_index
 
