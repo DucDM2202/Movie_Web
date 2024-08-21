@@ -4,13 +4,13 @@ import pandas as pd
 from data import create_dataset_with_genres
 from model import EmbeddingNet
 from train import train_model, update_embedding_layers, incremental_learning
-from recommend import get_recommended_movies
+from recommend import get_recommended_movies, get_most_rated_movies
 from eval import eval_model
 from config import *
 
 # inputs = 1 to train model and recommend movies for a user
 # inputs = 2 to incremental learning and recommend movies for a new user
-inputs = 2
+inputs = 1
 
 # Load data
 ratings = pd.read_csv("data/ratings.csv")
@@ -72,50 +72,57 @@ if inputs == 1:
 
 # Incremental learning and recommend movies for a new user
 if inputs == 2:
-    # Load best model weights
-    with open("checkpoints/best.weights", "rb") as dbfile:
-        best_weights = pickle.load(dbfile)
-        net.load_state_dict(best_weights)
 
     userID = 123456789
-    rated_movies = [[31, 4.5], [1129, 1.0], [6269, 3.0]]
+    rated_movies = [[31, 4.5]]
 
-    # Update embedding layers
-    user_to_index, movie_to_index = update_embedding_layers(
-        net, userID, rated_movies, user_to_index, movie_to_index
-    )
+    if rated_movies is None:
+        top_movies_movieId, top_movies_titles = get_most_rated_movies(
+            ratings, movies, top_k
+        )
 
-    # Incremental learning
-    net = incremental_learning(
-        net,
-        X,
-        y,
-        userID,
-        rated_movies,
-        user_to_index,
-        movie_to_index,
-        movies,
-        genres_split,
-        lr,
-        wd,
-        bs,
-        minmax,
-        device,
-    )
+    else:
+        # Load best model weights
+        with open("checkpoints/best.weights", "rb") as dbfile:
+            best_weights = pickle.load(dbfile)
+            net.load_state_dict(best_weights)
 
-    # Recommend movies for a new user
-    top_movies_movieId, top_movies_titles = get_recommended_movies(
-        net,
-        userID,
-        ratings,
-        movies,
-        genres_split,
-        user_to_index,
-        movie_to_index,
-        top_k,
-        device,
-        rated_movies,
-    )
+        # Update embedding layers
+        user_to_index, movie_to_index = update_embedding_layers(
+            net, userID, rated_movies, user_to_index, movie_to_index
+        )
+
+        # Incremental learning
+        net = incremental_learning(
+            net,
+            X,
+            y,
+            userID,
+            rated_movies,
+            user_to_index,
+            movie_to_index,
+            movies,
+            genres_split,
+            lr,
+            wd,
+            bs,
+            minmax,
+            device,
+        )
+
+        # Recommend movies for a new user
+        top_movies_movieId, top_movies_titles = get_recommended_movies(
+            net,
+            userID,
+            ratings,
+            movies,
+            genres_split,
+            user_to_index,
+            movie_to_index,
+            top_k,
+            device,
+            rated_movies,
+        )
 
     # Display recommended movies
     for movieId, movieTitle in zip(top_movies_movieId, top_movies_titles):
