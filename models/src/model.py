@@ -28,12 +28,12 @@ class EmbeddingNet(nn.Module):
     ):
         super().__init__()
 
-        # Convert hidden layers and dropout configurations to lists
+      
         hidden = get_list(hidden)
         dropouts = get_list(dropouts)
-        n_last = hidden[-1]  # Number of neurons in the last hidden layer
+        n_last = hidden[-1]  
 
-        # Generates hidden layers and corresponding dropout layers
+
         def gen_layers(n_in):
             nonlocal hidden, dropouts
             assert len(dropouts) <= len(hidden)

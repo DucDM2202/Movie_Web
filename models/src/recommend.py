@@ -1,6 +1,11 @@
+import os
+
 import torch
 import numpy as np
-import random
+import pickle
+
+from .train import update_embedding_layers, incremental_learning
+from .config import *
 
 
 def get_most_rated_movies(ratings, movies, top_k):
@@ -53,7 +58,7 @@ def get_recommended_movies(
     rated_movies=None,  # Optional list of already rated movies
 ):
     # Prepare genre information for all movies
-    genres_movie = movies["genres"].str.get_dummies("|")
+    genres_movie = movies["genres"].str.get_dummies(", ")
     movie_genres = movies[["movieId"]].join(genres_movie)
     user_index = user_to_index[userID]
 
@@ -110,3 +115,69 @@ def get_recommended_movies(
     ]
 
     return top_movies_movieId, top_movies_titles
+
+
+def get_recommendations(userId, rated_movies, top_k=10):
+
+    global net
+    
+
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..' ))
+
+    # # Xây dựng đường dẫn tuyệt đối đến file best.weights
+    weights_path = os.path.join(project_root, 'checkpoints', 'best.weights')
+
+
+
+    if rated_movies is None:
+        top_movies_movieId, top_movies_titles = get_most_rated_movies(
+            ratings, movies, top_k
+        )
+    else:
+
+
+        # Load best model weights
+        with open(weights_path, "rb") as dbfile:
+            best_weights = pickle.load(dbfile)
+            net.load_state_dict(best_weights)
+            
+        global user_to_index, movie_to_index    
+
+        # Update embedding layers
+        user_to_index, movie_to_index = update_embedding_layers(
+            net, userId, rated_movies, user_to_index, movie_to_index
+        )
+
+        # Incremental learning
+        net = incremental_learning(
+            net,
+            X,
+            y,
+            userId,
+            rated_movies,
+            user_to_index,
+            movie_to_index,
+            movies,
+            genres_split,
+            lr,
+            wd,
+            bs,
+            minmax,
+            device,
+        )
+
+        # Recommend movies for the new user
+        top_movies_movieId, top_movies_titles = get_recommended_movies(
+            net,
+            userId,
+            ratings,
+            movies,
+            genres_split,
+            user_to_index,
+            movie_to_index,
+            top_k,
+            device,
+            rated_movies,
+        )
+
+    return list(zip(top_movies_movieId, top_movies_titles))

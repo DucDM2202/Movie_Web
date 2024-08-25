@@ -6,7 +6,8 @@ from sklearn.model_selection import train_test_split
 from torch import optim
 from torch.nn import functional as F
 from torch.optim.lr_scheduler import _LRScheduler
-from iterator import batches_train, batches_recommend
+
+from .iterator import batches_train, batches_recommend
 
 
 # Custom learning rate scheduler using a cyclic learning rate strategy
@@ -128,9 +129,9 @@ def update_embedding_layers(
                 new_movie_index = len(movie_to_index)
                 movie_to_index[movie_id] = new_movie_index
                 with torch.no_grad():
-                    net.m = torch.nn.Embedding(len(movie_to_index), net.m.embedding_dim).to(
-                        net.m.weight.device
-                    )
+                    net.m = torch.nn.Embedding(
+                        len(movie_to_index), net.m.embedding_dim
+                    ).to(net.m.weight.device)
                     net.m.weight.data[-1] = torch.rand(net.m.embedding_dim) * 0.1 - 0.05
 
     return user_to_index, movie_to_index
@@ -162,7 +163,7 @@ def incremental_learning(
     new_user_index = user_to_index[userID]
     X_new = []
     y_new = []
-    genres_movie = movies["genres"].str.get_dummies("|")
+    genres_movie = movies["genres"].str.get_dummies(", ")
     movie_genres = movies[["movieId"]].join(genres_movie)
 
     # Prepare new user data for training
