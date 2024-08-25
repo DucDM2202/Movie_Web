@@ -1,0 +1,60 @@
+.active-link {
+    color: rgb(27, 25, 25);
+  }
+
+/* CSS cho phần tử nền ảnh và chữ */
+.relative.bg-cover {
+  position: relative;
+  z-index: 1; /* Đặt z-index thấp nhất */
+}
+
+.relative.bg-cover .absolute.bg-black {
+  z-index: 0; /* Đặt z-index thấp nhất */
+}
+
+.relative.bg-cover .absolute.z-10 {
+  z-index: 10; /* Đảm bảo z-index cao hơn phần nền */
+}
+
+.relative.bg-cover .absolute.bg-gradient-to-t {
+  z-index: 5; /* Đặt z-index vừa phải */
+}
+
+.relative.bg-cover .absolute svg {
+  z-index: 0; /* Đặt z-index thấp */
+}
+
+/* CSS cho dropdown menu */
+#userMenu {
+  position: absolute;
+  z-index: 10000; /* Đảm bảo z-index rất cao để đứng trên các phần tử khác */
+}
+
+
+/* Hiệu ứng phóng to khi hover */
+.max-w-xs {
+  transition: transform 0.3s ease;
+}
+
+.max-w-xs:hover {
+  transform: scale(1.2);
+}
+
+body {
+  background-color: #1a1a1a; /* Màu nền tối */
+  color: #e0e0e0; /* Màu chữ sáng */
+}
+
+header, footer {
+  background-color: #333; /* Màu nền của header và footer */
+}
+
+button, a {
+  background-color: #444; /* Màu nền của các button và link */
+  color: #fff; /* Màu chữ của các button và link */
+}
+
+input {
+  background-color: #222; /* Màu nền của ô nhập */
+  color: #e0e0e0; /* Màu chữ của ô nhập */
+}
