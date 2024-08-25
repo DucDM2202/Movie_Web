@@ -52,9 +52,6 @@ def movie_list(request):
 
 
 
-
-
-
 def popular_movies(request):
     """Renders a list of popular movies."""
     popular_movies_list = Movie.objects.filter(tags__name='most popular')
@@ -173,19 +170,20 @@ def movie_detail(request, slug):
 
     top_k = 10
     user_id = request.user.id if request.user.is_authenticated else None
-
+    # Existed user
     if user_id is not None and rated_movies:
         recommendations = get_recommendations(user_id, rated_movies, top_k)
         
         top_movies_movieId = [movieId for movieId, _ in recommendations]
         related_movies_by_tags = Movie.objects.filter(id__in=top_movies_movieId)
-
+    # New user
     else:
         related_movies_by_tags = (
             Movie.objects.filter(tags__in=movie.tags.all())
             .exclude(slug=slug)
-            .distinct()[:6]
+            .distinct()[:10]
         )
+
 
     if movie.subscription_required:
         user_subscription = UserSubscription.objects.filter(user=request.user).first()
