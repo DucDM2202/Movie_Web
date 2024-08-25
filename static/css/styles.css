@@ -3,31 +3,15 @@
   }
 
 /* CSS cho phần tử nền ảnh và chữ */
-.relative.bg-cover {
-  position: relative;
-  z-index: 1; /* Đặt z-index thấp nhất */
-}
-
-.relative.bg-cover .absolute.bg-black {
-  z-index: 0; /* Đặt z-index thấp nhất */
-}
-
-.relative.bg-cover .absolute.z-10 {
-  z-index: 10; /* Đảm bảo z-index cao hơn phần nền */
-}
-
-.relative.bg-cover .absolute.bg-gradient-to-t {
-  z-index: 5; /* Đặt z-index vừa phải */
-}
 
 .relative.bg-cover .absolute svg {
-  z-index: 0; /* Đặt z-index thấp */
+  z-index: 0; 
 }
 
 /* CSS cho dropdown menu */
 #userMenu {
   position: absolute;
-  z-index: 10000; /* Đảm bảo z-index rất cao để đứng trên các phần tử khác */
+  z-index: 10000; 
 }
 
 
@@ -41,8 +25,8 @@
 }
 
 body {
-  background-color: #1a1a1a; /* Màu nền tối */
-  color: #e0e0e0; /* Màu chữ sáng */
+  background-color: #1a1a1a; 
+  color: #e0e0e0; 
 }
 
 header, footer {
@@ -50,11 +34,30 @@ header, footer {
 }
 
 button, a {
-  background-color: #444; /* Màu nền của các button và link */
+  background-color: #2e3039; /* Màu nền của các button và link */
   color: #fff; /* Màu chữ của các button và link */
 }
 
 input {
-  background-color: #222; /* Màu nền của ô nhập */
-  color: #e0e0e0; /* Màu chữ của ô nhập */
+  background-color: #fff; /* Màu nền của ô nhập */
+  color: #0a0a0a; /* Màu chữ của ô nhập */
+}
+
+h2.text-2xl {
+  color: #000000; /* 'Signup' */
+}
+
+
+/* Sign-up*/
+.text-black {
+  color: #000000; /* Màu đen */
+}
+
+/* Chuyển màu đen và nền đậm cho link */
+.highlight-link {
+  color: #000000; /* Màu chữ đen */
+  background-color: #dad2f0; /* Màu nền đậm cho link */
+  padding: 2px 4px; /* Tạo khoảng cách giữa chữ và nền */
+  border-radius: 4px; /* Bo tròn góc nếu cần */
+  text-decoration: none; /* Loại bỏ gạch chân mặc định */
 }
