@@ -115,12 +115,14 @@ def signup(request):
             return redirect('account:login')
         else:
             messages.get_messages(request)
-            messages.error(request, 'Username already exists or other error.')
+            messages.error(request, 'Username already exists or password is not strong enough.')
     else:
         form = SignUpForm()
 
     context = {'form': form}
     return render(request, 'user_profile/signup.html', context)
+
+
 def user_login(request):
     if request.method == 'POST':
         form = UserLoginForm(request, data=request.POST)
