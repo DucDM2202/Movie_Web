@@ -11,8 +11,9 @@ from django.http import HttpResponse, JsonResponse, Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import UserProfile
-from .forms import UserProfileForm, SignUpForm
+from .forms import UserProfileForm, SignUpForm, UserLoginForm
 from movie.models import Movie
+from django.contrib.auth import authenticate, login
 
 @login_required
 def user_profile_detail(request):
@@ -62,8 +63,6 @@ def edit_user_profile(request):
     except UserProfile.DoesNotExist:
         raise Http404("User profile does not exist")
 
-
-
 @login_required
 def add_to_watchlist(request, movie_id):
     """
@@ -79,9 +78,6 @@ def add_to_watchlist(request, movie_id):
     except (UserProfile.DoesNotExist, Movie.DoesNotExist):
         messages.error(request, "Failed to add movie to your watchlist.")
         return redirect('some_error_view')
-
-
-
 
 @login_required
 def remove_from_watchlist(request, movie_id):
@@ -99,8 +95,6 @@ def remove_from_watchlist(request, movie_id):
         messages.error(request, "Failed to remove movie from your watchlist.")
         return redirect('some_error_view')
 
-
-
 def signup(request):
     """
     Handle user signup.
@@ -113,11 +107,35 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
+            username = form.cleaned_data.get('username')
+            messages.get_messages(request)
+            messages.success(request, f'Account created for {username}!')
             # Optionally, perform additional actions such as sending a welcome email or setting user attributes
             # e.g., user.send_welcome_email()
             return redirect('account:login')
+        else:
+            messages.get_messages(request)
+            messages.error(request, 'Username already exists or other error.')
     else:
         form = SignUpForm()
 
     context = {'form': form}
     return render(request, 'user_profile/signup.html', context)
+def user_login(request):
+    if request.method == 'POST':
+        form = UserLoginForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, f'Welcome back, {username}!')
+                return redirect('home')
+            else:
+                messages.error(request, 'Invalid username or password.')
+        else:
+            messages.error(request, 'Invalid username or password.')
+    else:
+        form = UserLoginForm()
+    return render(request, 'user_profile/login.html', {'form': form})

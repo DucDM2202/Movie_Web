@@ -10,6 +10,8 @@ urlpatterns = [
     path('watchlist/add/<slug:movie_id>/', views.add_to_watchlist, name='add_to_watchlist'),
     path('watchlist/remove/<slug:movie_id>/', views.remove_from_watchlist, name='remove_from_watchlist'),
     path('signup/', views.signup, name='signup'),
-    path('login/', auth_views.LoginView.as_view(template_name='user_profile/login.html'), name='login'),
+    # path('login/', views.user_login, name='login'),
+    path('login/', auth_views.LoginView.as_view(template_name='user_profile/login.html', redirect_authenticated_user=True,
+        extra_context={'error_message': 'Invalid username or password. Please try again.'}), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]
