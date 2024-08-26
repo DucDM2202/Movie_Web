@@ -12,4 +12,20 @@ quản lý hồ sơ cá nhân, xem danh sách phim, xem chi tiết phim, quản 
 dịch vụ, và thanh toán qua PayPal. Hệ thống phải hỗ trợ các chức năng cơ bản như xác thực người dùng, quản
 lý hồ sơ, và xử lý các yêu cầu liên quan đến phim và đánh giá phim.
 
+## Hướng dẫn sử dụng
 
+### Yêu cầu
+
+Trước khi bắt đầu, hãy đảm bảo rằng bạn đã cài đặt các phần mềm sau trên hệ thống của mình:
+
+- **Git**: [Cài đặt Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- **Docker**: [Cài đặt Docker](https://docs.docker.com/get-docker/)
+
+### Cài đặt
+
+1. **Clone Repository**
+
+   Sử dụng Git để clone repository về máy tính của bạn:
+
+   ```bash
+   git clone <đường-dẫn-repository>```
