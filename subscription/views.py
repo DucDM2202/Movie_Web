@@ -12,10 +12,14 @@ from django.contrib.auth.decorators import login_required
 
 def subscriptions_list(request):
     subscriptions = Subscription.objects.all()
+    next_url = request.GET.get('next', '')  # Lấy URL trang trước từ query parameter
+
     context = {
-        'subscriptions': subscriptions
+        'subscriptions': subscriptions,
+        'next_url': next_url  # Truyền URL vào context
     }
     return render(request, 'subscription/subscriptions_list.html', context)
+
 
 @login_required
 def subscription_detail(request, pk):
@@ -38,6 +42,7 @@ def checkout(request):
     if request.method == 'POST':
         subscription_id = request.POST.get('subscription_id')
         selected_duration = request.POST.get('selected_duration')
+        
         
         # Retrieve the selected price based on the selected duration
         if selected_duration == 'monthly':
