@@ -31,6 +31,32 @@ Trước khi bắt đầu, hãy đảm bảo rằng bạn đã cài đặt các 
    git clone https://github.com/DucDM2202/Movie_Web.git
 
 2. **Di chuyển đến Thư mục Dự án**
+   
+   Chuyển đến thư mục gốc của dự án:
+   
    ```bash
    cd Movie_Web
+4. **Build Docker Image**
+
+   Sử dụng Docker để build image cho ứng dụng MotChill:
+   
+   ```bash
+   docker build -t motchill-app .
+   
+### Chạy ứng dụng
+
+1. **Chạy Docker Container**
+
+   Khởi động container bằng lệnh sau:
+
+   ```bash
+   docker run -p 8000:8000 motchill-app
+2. **Truy cập Ứng dụng**
+
+   Mở trình duyệt web và truy cập:
+
+   ```bash
+   http://127.0.0.1:8000
+
+   
 
