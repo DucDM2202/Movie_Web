@@ -57,5 +57,3 @@ Trước khi bắt đầu, hãy đảm bảo rằng bạn đã cài đặt các 
 
    ```bash
    http://127.0.0.1:8000
-   
-
