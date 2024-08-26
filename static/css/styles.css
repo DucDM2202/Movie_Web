@@ -30,34 +30,34 @@ body {
 }
 
 header, footer {
-  background-color: #333; /* Màu nền của header và footer */
+  background-color: #333; 
 }
 
 button, a {
-  background-color: #2e3039; /* Màu nền của các button và link */
-  color: #fff; /* Màu chữ của các button và link */
+  background-color: #2e3039; 
+  color: #fff; 
 }
 
 input {
-  background-color: #fff; /* Màu nền của ô nhập */
-  color: #0a0a0a; /* Màu chữ của ô nhập */
+  background-color: #fff; 
+  color: #0a0a0a;
 }
 
 h2.text-2xl {
-  color: #000000; /* 'Signup' */
+  color: #000000; 
 }
 
 
 /* Sign-up*/
 .text-black {
-  color: #000000; /* Màu đen */
+  color: #000000; 
 }
 
 /* Chuyển màu đen và nền đậm cho link */
 .highlight-link {
-  color: #000000; /* Màu chữ đen */
-  background-color: #dad2f0; /* Màu nền đậm cho link */
-  padding: 2px 4px; /* Tạo khoảng cách giữa chữ và nền */
-  border-radius: 4px; /* Bo tròn góc nếu cần */
-  text-decoration: none; /* Loại bỏ gạch chân mặc định */
+  color: #000000; 
+  background-color: #dad2f0; 
+  padding: 2px 4px; 
+  border-radius: 4px; 
+  text-decoration: none; 
 }
