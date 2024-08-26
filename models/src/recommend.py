@@ -1,5 +1,5 @@
 import os
-import random
+
 import torch
 import numpy as np
 import pickle
@@ -8,41 +8,7 @@ from .train import update_embedding_layers, incremental_learning
 from .config import *
 
 
-# def get_most_rated_movies(ratings, movies, top_k):
-#     C = ratings["rating"].mean()
-#     m = ratings["movieId"].value_counts().quantile(0.9)
-
-#     movie_stats = (
-#         ratings.groupby("movieId")
-#         .agg(num_ratings=("rating", "count"), avg_rating=("rating", "mean"))
-#         .reset_index()
-#     )
-
-#     qualified_movies = movie_stats[movie_stats["num_ratings"] >= m]
-
-#     qualified_movies["weighted_rating"] = (
-#         qualified_movies["num_ratings"] / (qualified_movies["num_ratings"] + m)
-#     ) * qualified_movies["avg_rating"] + (m / (m + qualified_movies["num_ratings"])) * C
-
-#     # Select the top-k movies with the highest weighted ratings.
-#     top_k2_movies = qualified_movies.sort_values(
-#         "weighted_rating", ascending=False
-#     ).head(top_k*2)
-
-#     top_k2_movieId = list(top_k2_movies["movieId"])
-#     top_k_movieId = random.sample(top_k2_movieId, top_k)
-
-
-#     # Retrieve the titles of the top-k movies.
-#     top_movies_titles = [
-#         movies[movies.movieId == movieId]["title"].values[0]
-#         for movieId in top_k_movieId
-#     ]
-
-#     # Return the movieIds and titles of the top-k movies.
-#     return top_k_movieId, top_movies_titles
-
-def get_most_rated_movies(top_k):
+def get_most_rated_movies(ratings, movies, top_k):
     # Calculate the global average rating (C) and the 90th percentile of the number of ratings per movie (m).
     C = ratings["rating"].mean()
     m = ratings["movieId"].value_counts().quantile(0.9)
@@ -63,11 +29,11 @@ def get_most_rated_movies(top_k):
     ) * qualified_movies["avg_rating"] + (m / (m + qualified_movies["num_ratings"])) * C
 
     # Select the top-k movies with the highest weighted ratings.
-    top_k2_movies = qualified_movies.sort_values(
+    top_k_movies = qualified_movies.sort_values(
         "weighted_rating", ascending=False
-    ).head(top_k*2)
-    top_k2_movieId = list(top_k2_movies["movieId"])
-    top_k_movieId = random.sample(top_k2_movieId, top_k)
+    ).head(top_k)
+    top_k_movieId = list(top_k_movies["movieId"])
+
     # Retrieve the titles of the top-k movies.
     top_movies_titles = [
         movies[movies.movieId == movieId]["title"].values[0]
@@ -76,6 +42,7 @@ def get_most_rated_movies(top_k):
 
     # Return the movieIds and titles of the top-k movies.
     return top_k_movieId, top_movies_titles
+
 
 # Generate a list of recommended movies for a given user
 def get_recommended_movies(

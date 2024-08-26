@@ -162,8 +162,9 @@
     </div>
 
     <!-- Similar Movies Section -->
-    <h2 class="text-2xl font-semibold mb-4">YOU MAY ALSO LIKE</h2>
-    <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+    <h2 class="text-2xl font-semibold mb-4" style="color: white;">YOU MAY ALSO LIKE</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
         {% for related_movie in related_movies %}
         <div class="max-w-xs rounded-lg overflow-hidden shadow-md">
             <a href="{% url 'movies:movie_detail' related_movie.slug %}">
@@ -181,43 +182,33 @@
         <p></p>
     </div>
 
-    <!-- YouTube API -->
-    <script src="https://www.youtube.com/iframe_api"></script>
 
     <!-- YouTube Player Script -->
     <script>
-        // YouTube video ID
-        const videoId = "{{ movie.video_id }}";
+        //YouTube video ID
+        const videoId = "{{movie.video_id}}";
 
         // Function to create and initialize the YouTube player
         function onYouTubeIframeAPIReady() {
-            new YT.Player('player', {
-                height: '360',
-                width: '640',
-                videoId: videoId,
-                playerVars: {
-                    autoplay: 0, // Set to 1 for autoplay
-                    controls: 1,
-                    modestbranding: 1,
-                    rel: 0,
-                    showinfo: 0,
-                },
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange, // Add state change event
-                },
-            });
+        const player = new YT.Player('player', {
+            height: '360',
+            width: '640',
+            videoId: videoId,
+            playerVars: {
+            autoplay: 0, // Set to 1 for autoplay
+            controls: 1,
+            modestbranding: 1,
+            rel: 0,
+            showinfo: 0,
+            },
+            events: {
+            'onReady': onPlayerReady,
+            },
+        });
         }
 
         function onPlayerReady(event) {
-            // You can add additional functionality or event handling here if needed
-        }
-
-        function onPlayerStateChange(event) {
-            // Handle player state changes, e.g., reset player on end
-            if (event.data === YT.PlayerState.ENDED) {
-                event.target.seekTo(0); // Reset video to start
-            }
+    
         }
     </script>
 
